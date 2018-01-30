@@ -13161,7 +13161,7 @@ yf8HH3eW1F/pfzAAAAAASUVORK5CYII=
 <li>'waypoint' because it shows the direction to the agent which is primordial for efficiency</li>
 <li>'light', 'left', 'oncoming' because it let's the agent know is there are vehicules around before going a certain direction and traffic lights so it's important for safety. </li>
 </ul>
-<p>I don't have a driving license and we don't have this rule in France so I might be wrong on this one but I didn't include the 'right' because as far as I understand the U.S. Right-of-Way rules, unless there are special signs, you can turn right on an intersection even though the light is red to go straight.</p>
+<p>I don't have a driving license and we don't have this rule in France so I might be wrong on this one but I didn't include the 'right' because as far as I understand the U.S. Right-of-Way rules, the agent will not need to yield to traffic from the right side of the intersection when it is making any move. This is assuming that the dummy agents all follow traffic laws and right traffic will not run through a red light. Also in this environment, the agent can turn right at a red light as long as it avoids collision with left traffic moving forward.</p>
 <p>Also I didn't include 'deadline' because giving too much important on the time left to reach a destination might lead the agent to make violations or worse get into an accident. Since 'waypoint' is already supposed to give the best way, then it should be the shortest way and what we care about is to get there as soon as possible given that we are following the rules. It's good to get somewhere on time, it's always better alive.</p>
 
 </div>
@@ -14522,8 +14522,8 @@ wYsGCSUR8QAAAABJRU5ErkJggg==
 <li><p>As we can see in the 'sim_default-learning.csv', it took 20 training trials before testing. As asked, I used the following decay function for $\epsilon$:</p>
 </li>
 </ul>
-<p>$$ \epsilon_{t+1} = \epsilon_{t} - 0.05, \hspace{10px}\textrm{for trial number } t$$</p>
-<p>And the $\epsilon_{tolerance}$ was 0.05. As the initial $\epsilon$ value was 1, the number of trials was then $\frac{\epsilon_{t}-\epsilon_{tolerance}}{0.05} = \frac{1-0.05}{0.05} = 19$. Therefore this number makes sense with the number of training trials it took.</p>
+<p>$$ \epsilon_{t+1} = \epsilon_{t} - 0.05 \hspace{10px}\textrm{for trial number } t$$</p>
+<p>And the $\epsilon_{tolerance}$ was 0.05. As the initial $\epsilon$ value was 1, the number of trials was then $\frac{\epsilon_{t}-\epsilon_{tolerance}}{0.05} = \frac{1-0.05}{0.05} = 19$. We can see in the 'sim_default-learning.csv' file that at trial number 19, $\epsilon = 0.049999999999999684$ and it took one more trial before starting testing maybe because of value approximation.</p>
 <ul>
 <li><p>We see that the $\epsilon$ is accurately represented as a line with a slope of -0.05 as implemented above.</p>
 </li>
@@ -16454,9 +16454,7 @@ $$t = 300$$</p>
 
 <pre><code>  if Waypoint is right:
       if light green:
-          if oncoming car is going their left:
-              then wait
-          else: go right
+          then go right
       else:
           if car from left is going forward:
               then wait
@@ -16548,8 +16546,8 @@ $$t = 300$$</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>The world is not static, there are different states for traffic lights and their are other moving cars in the environment. Futur rewards cannot be clearly determined because of all the parameters moving. The only predictable feature is the waypoint. Therefore futur rewards wouldn't work with this environment.</p>
-<p>As for the smartcab, the most important thing for it is to learn how to drive safely. Those rules are unchanged no matter what state you're in therefore, taking futur reward into account wouldn't make any difference.</p>
+<p>The world is not static, there are different states for traffic lights and their are other moving cars in the environment. Also it is stochastic, futur rewards cannot be clearly determined because of all the parameters moving. The only predictable feature is the waypoint. Therefore futur rewards wouldn't work with this environment.</p>
+<p>As for the smartcab, the most important thing for it is to learn how to drive safely. Those rules are unchanged no matter what state you're in therefore, taking futur reward into account wouldn't make any difference. Also, the agent cannot see beyond the current intersection and therefore is unable to select the optimal action in advance.</p>
 
 </div>
 </div>
